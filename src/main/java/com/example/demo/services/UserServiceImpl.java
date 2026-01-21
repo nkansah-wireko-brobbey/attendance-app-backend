@@ -4,13 +4,16 @@ import com.example.demo.constants.UserRole;
 import com.example.demo.domain.User;
 import com.example.demo.dto.CreateUserRequest;
 import com.example.demo.dto.CreateUserResponse;
+import com.example.demo.dto.UserDto;
 import com.example.demo.exceptions.DuplicateUserException;
 import com.example.demo.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +41,14 @@ public class UserServiceImpl implements UserService {
         User newUser = userRepository.save(user);
 
         return CreateUserResponse.from(newUser);
+    }
+
+    public List<UserDto> getAllUsers(){
+        List<User> optionalUsers = userRepository.findAll();
+
+        return optionalUsers.stream()
+                .map(user -> new UserDto(user.getId(), user.getName(), user.getPhone(), user.getEmail(), user.getRfidUid()))
+                .collect(Collectors.toList());
     }
 
 }

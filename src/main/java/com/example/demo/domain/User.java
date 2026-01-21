@@ -10,7 +10,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "member_user")
+@Table(name = "member_user/,")
 public class User extends Audit{
 
     @Id
